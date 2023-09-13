@@ -6,47 +6,40 @@ include \masm32\include\windows.inc
 include \masm32\include\kernel32.inc
 include \masm32\include\masm32.inc
 include \masm32\include\user32.inc
+include \masm32\include\msvcrt.inc
 
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\masm32.lib
 includelib \masm32\lib\user32.lib
+includelib \masm32\lib\msvcrt.lib
 
-; 'db' - define byte
-; ', 0' - adding null-terminator
 .const
-	promptA   db "Enter value for a: ", 0
-	promptB   db "Enter value for b: ", 0
-	promptC   db "Enter value for c: ", 0
-	formatStr db "%u", 0
-	resultStr db "Result X = %u", 0
+	promptA     db "Enter value for a: ", 0
+	promptB     db "Enter value for b: ", 0
+	promptC     db "Enter value for c: ", 0
+	formatWord  db "%hu", 0
+	formatDword db "%lu", 0
+	resultStr   db "Result X = %lu", 0
 
-	; contains uninitialized variables
 .data?
-	          a  WORD ?
-	          b  WORD ?
-	          c_ WORD ?
-	          x  DWORD ?
+	a           dw ?
+	b           dw ?
+	c_          dw ?
+	x           dd ?
 
 .code
 	start:
 	; Get input for a
-	      invoke StdOut, addr promptA
-	      invoke StdIn, addr a, sizeof a
-	      invoke atodw, addr a
-	      mov    a, ax
-	      invoke StdOut, addr a
+	      invoke crt_printf, addr promptA
+	      invoke crt_scanf, addr formatWord, addr a
 
 	; Get input for b
-	      invoke StdOut, addr promptB
-	      invoke StdIn, addr b, sizeof b
-	      invoke atodw, addr b
-	      mov    b, ax
+	      invoke crt_printf, addr promptB
+	      invoke crt_scanf, addr formatWord, addr b
 
 	; Get input for c
-	      invoke StdOut, addr promptC
-	      invoke StdIn, addr c_, sizeof c_
-	      invoke atodw, addr c_
-	      mov    c_, ax
+	      invoke crt_printf, addr promptC
+	      invoke crt_scanf, addr formatWord, addr c_
 
 	; Calculate X = 5a + cb
 	      mov    ax, a
@@ -57,11 +50,9 @@ includelib \masm32\lib\user32.lib
 	      mov    x, eax
 
 	; Display result
-	; invoke printf, addr resultStr, addr formatStr, x
-	      invoke StdOut, addr resultStr
+	      invoke crt_printf, addr resultStr, x
 
 	; Exit
 	      invoke ExitProcess, 0
 
 end start
-
