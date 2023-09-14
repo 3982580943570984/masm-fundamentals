@@ -4,53 +4,50 @@ option casemap:none
 
 include \masm32\include\windows.inc
 include \masm32\include\kernel32.inc
-include \masm32\include\masm32.inc
-include \masm32\include\user32.inc
 include \masm32\include\msvcrt.inc
 
 includelib \masm32\lib\kernel32.lib
-includelib \masm32\lib\masm32.lib
-includelib \masm32\lib\user32.lib
 includelib \masm32\lib\msvcrt.lib
 
 .const
-	promptA     db "Enter value for a: ", 0
-	promptB     db "Enter value for b: ", 0
-	promptC     db "Enter value for c: ", 0
+	promptA     db "Введите значение для a: ", 0
+	promptB     db "Введите значение для b: ", 0
+	promptC     db "Введите значение для c: ", 0
+	resultStr   db "Результирующий x: %lu", 0
+	
 	formatWord  db "%hu", 0
-	formatDword db "%lu", 0
-	resultStr   db "Result X = %lu", 0
+	formatDword db "%u", 0
 
 .data?
-	a           dw ?
-	b           dw ?
+	a_          dw ?
+	b_          dw ?
 	c_          dw ?
-	x           dd ?
+	x_          dd ?
 
 .code
 	start:
 	; Get input for a
 	      invoke crt_printf, addr promptA
-	      invoke crt_scanf, addr formatWord, addr a
+	      invoke crt_scanf, addr formatWord, addr a_
 
 	; Get input for b
 	      invoke crt_printf, addr promptB
-	      invoke crt_scanf, addr formatWord, addr b
+	      invoke crt_scanf, addr formatWord, addr b_
 
 	; Get input for c
 	      invoke crt_printf, addr promptC
 	      invoke crt_scanf, addr formatWord, addr c_
 
 	; Calculate X = 5a + cb
-	      mov    ax, a
+	      mov    ax, a_
 	      imul   ax, 5
 	      mov    bx, c_
-	      imul   bx, b
+	      imul   bx, b_
 	      add    ax, bx
-	      mov    x, eax
+	      mov    x_, eax
 
 	; Display result
-	      invoke crt_printf, addr resultStr, x
+	      invoke crt_printf, addr resultStr, x_
 
 	; Exit
 	      invoke ExitProcess, 0

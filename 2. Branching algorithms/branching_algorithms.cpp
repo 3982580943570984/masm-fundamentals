@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-const char format[] = "\t%d находится в диапазоне [1, 10]\n";
+const char format[] = "\t%d находится в диапазоне [1, 10]";
 
 auto calculation(int a, int b, int c) {
   __asm {
