@@ -6,15 +6,18 @@ include \masm32\include\windows.inc
 include \masm32\include\masm32.inc
 include \masm32\include\kernel32.inc
 include \masm32\include\user32.inc
+include \masm32\include\msvcrt.inc
 
 includelib \masm32\lib\masm32.lib
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\user32.lib
+includelib \masm32\lib\msvcrt.lib
 
 .data
-    prompt       db "Enter a string (letters and digits only):", 0
+    prompt       db "Введите строку (только буквы и цифры):", 0
     formatString db "%s", 0
-    outputFormat db "Letters: %s, Digits: %s", 0
+    outputFormat db "Буквы: %s, Цифры: %s", 0
+    
     inputString  db 256 dup(0)
     letters      db 256 dup(0)
     digits       db 256 dup(0)
@@ -22,6 +25,7 @@ includelib \masm32\lib\user32.lib
 .code
     start:      
     ; Get input string from user
+                invoke crt_printf, addr prompt
                 invoke StdIn, addr inputString, 256
                 
     ; Process the string

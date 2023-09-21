@@ -1,6 +1,6 @@
 .386
 .model flat, stdcall
-option casemap :none
+option casemap:none
 
 include \masm32\include\windows.inc
 include \masm32\include\msvcrt.inc
@@ -10,8 +10,8 @@ includelib \masm32\lib\msvcrt.lib
 includelib \masm32\lib\kernel32.lib
 
 .const
-    promptSize    db "Enter size of the array: ", 0
-    promptElement db "Enter element %hu: ", 0
+    promptSize    db "Введите размер массива: ", 0
+    promptElement db "Введите элемент массива %hu: ", 0
     formatDword   db "%hu"
     
 .data?

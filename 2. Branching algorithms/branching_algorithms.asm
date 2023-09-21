@@ -4,23 +4,24 @@ option casemap:none
 
 include \masm32\include\windows.inc
 include \masm32\include\kernel32.inc
+
 include \masm32\include\msvcrt.inc
 
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\msvcrt.lib
 
 .const
-      promptA           db "Введите значение для a: ", 0
-      promptB           db "Введите значение для b: ", 0
-      promptC           db "Введите значение для c: ", 0
+      promptA        db "Введите значение для a: ", 0
+      promptB        db "Введите значение для b: ", 0
+      promptC        db "Введите значение для c: ", 0
 
-      formatContains    db "%hu находится в диапазоне [1, 10]", 10, 0
-      formatWord        db "%hu", 0
+      formatContains db "%hu находится в диапазоне [1, 10]", 10, 0
+      formatWord     db "%hu", 0
 
 .data?
-      a_                dw ?
-      b_                dw ?
-      c_                dw ?
+      a_             dw ?
+      b_             dw ?
+      c_             dw ?
 
 .code
       start:
@@ -42,8 +43,7 @@ includelib \masm32\lib\msvcrt.lib
             jl     skip1
             cmp    ax, 10
             jg     skip1
-            invoke crt_printf, addr format, ax
-            add    esp, 8
+            invoke crt_printf, addr formatContains, ax
 
       ; Parse b
       skip1:
@@ -52,8 +52,7 @@ includelib \masm32\lib\msvcrt.lib
             jl     skip2
             cmp    ax, 10
             jg     skip2
-            invoke crt_printf, addr format, ax
-            add    esp, 8
+            invoke crt_printf, addr formatContains, ax
 
       ; Parse c
       skip2:
@@ -62,8 +61,7 @@ includelib \masm32\lib\msvcrt.lib
             jl     skip3
             cmp    ax, 10
             jg     skip3
-            invoke crt_printf, addr format, ax
-            add    esp, 8
+            invoke crt_printf, addr formatContains, ax
       
       ; Exit
       skip3:

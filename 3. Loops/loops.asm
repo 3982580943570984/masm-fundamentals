@@ -10,10 +10,10 @@ includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\msvcrt.lib
 
 .const
-    promptM     db "Enter value for m: ", 0
-    outputM     db "Entered m: %hu", 10, 0
+    promptM     db "Введите значение m: ", 0
+    outputM     db "Введенное m: %hu", 10, 0
     formatDword db "%hu", 0
-    formatRes   db "The largest k for which 2*k < m: %hu", 10, 0    ; Format string for printf
+    formatRes   db "Наибольшее k при котором 2*k < m: %hu", 10, 0    ; Format string for printf
 
 .data
     k_   dd 0    ; Desired number k

@@ -5,13 +5,18 @@ option casemap:none
 include \masm32\include\windows.inc
 include \masm32\include\kernel32.inc
 include \masm32\include\masm32.inc
+include \masm32\include\msvcrt.inc
+
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\masm32.lib
+includelib \masm32\lib\msvcrt.lib
 
 .data
     prompt      db "Input string: ", 0
-    s1Label     db "String S1 (letters): ", 0
-    s2Label     db "String S2 (numbers): ", 0
+    s1Label     db "Letters: ", 0
+    s2Label     db "Numbers: ", 0
+    allLabel    db "Letters: %s, Number: %s", 0
+
     inputString db 256 dup(0)
     s1          db 256 dup(0)
     s2          db 256 dup(0)
@@ -26,14 +31,14 @@ InputString ENDP
 
 ProcessChar PROC
     ; Инициализация индексов для строк S1 и S2
-                  xor    ecx, ecx                        ; индекс для S1
-                  xor    edx, edx                        ; индекс для S2
+                  xor    ecx, ecx                                       ; индекс для S1
+                  xor    edx, edx                                       ; индекс для S2
 
     ; Пройтись по каждому символу строки
                   mov    esi, offset inputString
     processLoop:  
                   mov    al, [esi]
-                  test   al, al                          ; Проверка на конец строки
+                  test   al, al                                         ; Проверка на конец строки
                   jz     done
 
     ; Проверка на букву
@@ -69,10 +74,7 @@ ProcessChar ENDP
 
 OutputResults PROC
     ; Вывести строки S1 и S2
-                  invoke StdOut, addr s1Label
-                  invoke StdOut, addr s1
-                  invoke StdOut, addr s2Label
-                  invoke StdOut, addr s2
+                  invoke crt_printf, addr allLabel, addr s1, addr s2
                   ret
 OutputResults ENDP
 
